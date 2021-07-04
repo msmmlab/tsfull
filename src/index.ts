@@ -1,6 +1,7 @@
 import {MikroORM} from '@mikro-orm/core'
+import express from 'express'
 import { __prod__ } from './constants';
-import { Post } from './entities/Post';
+// import { Post } from './entities/Post';
 import mikroConfig from './mikro-orm.config';
 
 
@@ -8,14 +9,27 @@ const main = async () => {
 const orm = await MikroORM.init(mikroConfig);
 // run migrations first
 await orm.getMigrator().up();
-// run sql
+
+const app = express();
+
+
+// check rest API 
+// app.get('/', (_,res) => {
+//     res.status(200).send('Hello')
+// })
+
+app.listen(4000, () => {
+    console.log('Server up on PORT:4000')
+})
+
+// run sql => create first posts
 // const post = orm.em.create(Post, {title: 'My first post'})
 // await orm.em.persistAndFlush(post);
-// console.log('sql2-------->')
-// await orm.em.nativeInsert(Post, {post: 'My second post'})
 
-const posts = await orm.em.find(Post, {})
-console.log(posts);
+
+// check first posts
+// const posts = await orm.em.find(Post, {})
+// console.log(posts);
 
 }
 
